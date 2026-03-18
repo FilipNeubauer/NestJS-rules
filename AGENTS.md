@@ -87,12 +87,6 @@ This repository is a NestJS backend. Prefer predictable, explicit, maintainable 
 - Run typecheck.
 - Update validation, schemas/contracts, and tests together when changing inputs or outputs.
 
-## Detailed agent docs
-- `docs/agents/bullmq.md`
-- `docs/agents/graphql.md`
-- `docs/agents/validation.md`
-- `docs/agents/error-handling.md`
-
 ## Rules for updating this file
 Only add rules that are:
 - repo-wide
