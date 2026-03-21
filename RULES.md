@@ -657,3 +657,26 @@ for (const reservationId of reservationIds) {
   processed.push(reservation)
 }
 ```
+
+### Do not use `logger.debug` for important events
+
+* `logger.debug` is often disabled in production and can hide critical runtime information
+* Use `logger.log`, `logger.warn`, or `logger.error` based on severity
+
+#### ❌ Bad
+
+```ts
+this.logger.debug('Payment sync failed', { paymentId })
+```
+
+#### ✅ Good
+
+```ts
+this.logger.error('Payment sync failed', { paymentId })
+```
+
+#### ✅ Good
+
+```ts
+this.logger.log('Payment sync started', { paymentId })
+```
