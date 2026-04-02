@@ -448,12 +448,65 @@ import Decimal from 'decimal.js'
 new Decimal(0.1).plus(0.2).toNumber()
 ```
 
+### Be aware of division rounding
+
+* Division can produce non-integer results — always decide whether to round, truncate, or keep full precision
+* Make the rounding strategy explicit; never silently pass unrounded values to APIs, databases, or user-facing output
+
+#### ❌ Bad
+
+```ts
+const pricePerItem = totalPrice / quantity
+// 10 / 3 = 3.3333333333333335 — stored/displayed without rounding
+await this.repo.save({ pricePerItem })
+```
+
+#### ❌ Bad
+
+```ts
+const percentage = (completed / total) * 100
+return `${percentage}%` // "33.33333333333333%"
+```
+
+#### ✅ Good
+
+```ts
+const pricePerItem = new Decimal(totalPrice).div(quantity).toDecimalPlaces(2).toNumber()
+await this.repo.save({ pricePerItem })
+```
+
+#### ✅ Good
+
+```ts
+const percentage = Math.round((completed / total) * 100)
+return `${percentage}%` // "33%"
+```
+
+---
 
 ## Prefer JSDoc over inline comments
 
 - use JSDoc (`/** */`) for documenting functions, classes, and complex variables
 - avoid inline comments (`//`) unless absolutely necessary (e.g. explaining non-obvious logic)
 - JSDoc provides better IDE support, type hints, and is more structured
+- keep JSDoc short — one line for simple things, max 2-3 lines for complex logic
+
+### ❌ Bad (verbose JSDoc)
+
+```ts
+/**
+ * This function is responsible for creating a new user entity
+ * in the system. It takes the user's name as a parameter and
+ * returns a newly constructed user object containing all
+ * the provided information.
+ *
+ * @param name - The full name of the user that will be stored
+ * @returns A new user object with the name property set
+ */
+function createUser(name: string) {
+  return { name }
+}
+```
 
 ### ❌ Bad
 ```ts
