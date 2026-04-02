@@ -216,10 +216,9 @@ get(@Param('id') id: string) {}
 #### ✅ Good
 
 ```ts
-class GetUserParams {
-  @IsUUID()
-  id: string
-}
+const GetUserParams = z.object({
+  id: z.string().uuid(),
+})
 ```
 
 ---
@@ -227,18 +226,13 @@ class GetUserParams {
 ### Example DTO
 
 ```ts
-class CreateUserDto {
-  @IsString()
-  @MinLength(1)
-  @MaxLength(100)
-  @Transform(({ value }) => value.trim())
-  name: string
-
-  @IsArray()
-  @ArrayMaxSize(10)
-  @ArrayUnique()
-  roles: string[]
-}
+const CreateUserDto = z.object({
+  name: z.string().min(1).max(100).transform((v) => v.trim()),
+  roles: z.array(z.string()).max(10).refine(
+    (arr) => new Set(arr).size === arr.length,
+    { message: 'Roles must be unique' },
+  ),
+})
 ```
 
 ---

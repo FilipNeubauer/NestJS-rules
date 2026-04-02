@@ -22,7 +22,7 @@
 
 - Validate ALL incoming data: params, query, and body.
 - Trim strings, enforce min/max lengths, validate arrays for both length and uniqueness.
-- Use class-validator decorators and dedicated param/DTO classes — never accept raw unvalidated params.
+- Use Zod (preferred) or class-validator for validation, depending on what the project already uses.
 
 ## Type Safety
 
