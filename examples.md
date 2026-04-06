@@ -262,6 +262,25 @@ switch (status) {
 }
 ```
 
+### Prefer explicit `| undefined` over `?` for optional parameters
+
+* Using `?` lets callers silently omit the parameter — easy to miss during refactoring
+* `| undefined` forces callers to explicitly pass `undefined`, keeping the parameter visible
+
+#### ❌ Bad
+
+```ts
+function createUser(name: string, nickname?: string) { ... }
+createUser('Alice'); // nickname silently omitted
+```
+
+#### ✅ Good
+
+```ts
+function createUser(name: string, nickname: string | undefined) { ... }
+createUser('Alice', undefined); // explicit, won't be missed in refactoring
+```
+
 ---
 
 ## 🏗️ Architecture

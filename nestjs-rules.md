@@ -27,6 +27,7 @@
 ## Type Safety
 
 - Use exhaustive `switch` with `satisfies never` in the default case to catch unhandled enum/union values at compile time.
+- Prefer `param: Type | undefined` over `param?: Type` for optional parameters — this forces callers to explicitly pass `undefined`, so the parameter won't be silently forgotten during refactoring.
 
 ## Architecture
 
